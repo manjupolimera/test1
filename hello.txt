@@ -1,4 +1,6 @@
 Hello
 first line adding to file
 
-adding second change
+modifying second change
+
+adding third change
