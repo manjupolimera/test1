@@ -1,2 +1,4 @@
 adding file
 checking merge options on master
+adding change from master branch to check merge option
+doing  the merge activity
