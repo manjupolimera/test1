@@ -1,0 +1,472 @@
+Docker Setup : 
+
+$ sudo yum install -y yum-utils
+$ sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+$ sudo yum install docker-ce
+$ sudo systemctl start docker
+
+## To check whether it has worked correctly 
+$sudo docker run hello-world
+It shall give following output:
+
+"""
+Unable to find image 'hello-world:latest' locally
+latest: Pulling from library/hello-world
+78445dd45222: Pull complete
+Digest: sha256:c5515758d4c5e1e838e9cd307f6c6a0d620b5e07e6f927b07d05f6d12a1ac8d7
+Status: Downloaded newer image for hello-world:latest
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://cloud.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/engine/userguide/
+
+"""
+
+For further help for other OS ... Visit official site:
+https://docs.docker.com/engine/installation
+
+
+
+
+Docker commands 
+
+$ docker images                    ##lists all images available locally
+
+$ docker search <keyword>         ## search the repository docker-hub for all the images containg <keyword>
+$ docker search centos    
+
+$ docker pull hello-world         ## Download hello-world image to local host machine from docker-hub repo
+$ docker images                   
+$ docker run hello-world:latest   ## Run latest version of hello-world
+OR 
+$ docker run <Image-id>           
+
+other examples
+$ docker pull centos:centos6          ##centos6 is the version tag
+'''
+Hello-world is an ephemeral container. Ran and exited.
+In images it can have multiple layers/snapshot over that image e.g. 
+base layer: package layer: configuration layer
+''' 
+
+## To look about details of image
+$ docker inspect <image name/image-id>
+
+$ docker pull docker/whalesay       ## Download docker/whalesay image to local host machine from docker-hub repo
+$ docker run docker/whalesay cowsay IAMWHALE     ## run container 
+ __________
+< IAMWHALE >
+ ----------
+    \
+     \
+      \
+                    ##        .
+              ## ## ##       ==
+           ## ## ## ##      ===
+       /""""""""""""""""___/ ===
+  ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ===- ~~~
+       \______ o          __/
+        \    \        __/
+          \____\______/
+        
+
+
+$ docker ps                         ## lists the containers running
+$ docker ps -a                      ## gives all the containers that ran in the past
+$ docker inspect <container_name>   ## Gives jason object enumerating details of the running container
+
+$ docker run -it centos:latest /bin/bash        ## -I  iteractive mode , -t on terminal; create a bash shell
+                                                ## It will instantly login to the container and launch a bash 
+                                                ##shell. On exiting bash shell the container will also terminate.
+
+## to avoid that run with -d command:
+$ docker run -d centos:latest /bin/bash         ## it shall return a container id only
+                                                  ## and container will be exited 
+
+$ docker stop container id                      ### will kill the container
+$ docker ps                                     ## check it with "docker ps" command
+$ docker ps -a                                  ## will show killed containers
+
+$ docker run -d --name=mycontainername imagename:imageversion     ## Give container a name
+$ docker inspect mycontainername
+
+$ docker attach container_name/id                 ## control will attach to the container and exitig from their will bring down the container itself
+
+$ docker exec -it containername /bin/bash       ## it will launch a bash shell and jump to this bash shell running in the container. exiting from here will just exit from bash shell
+
+$ docker restart container_name                   ## restart the container
+
+###   Image and container management:
+
+$ docker rmi centos:centos6           ## remove images only if no containers are running on it.
+
+$ docker rm container_id              ### removes the container
+$ docker rm `docker ps -a -q `          ### removes all the containers 
+
+## if we do now 
+$ docker rmi <image_name>           ## it will remove the image
+                                    ## use -f option to forcefully remove the image even if containers are runnning
+
+
+
+
+docker build -t dir_containing_dockerfile .  # Create image using this directory's Dockerfile
+docker run -p 4000:80 container_name # Run "friendlyname" mapping port 4000 to 80
+docker run -d -p 4000:80 friendlyname         # Same thing, but in detached mode
+docker ps                                 # See a list of all running containers
+docker stop <hash>                     # Gracefully stop the specified container
+docker ps -a           # See a list of all containers, even the ones not running
+docker kill <hash>                   # Force shutdown of the specified container
+docker rm <hash>              # Remove the specified container from this machine
+docker rm $(docker ps -a -q)           # Remove all containers from this machine
+docker images -a                               # Show all images on this machine
+docker rmi <imagename>            # Remove the specified image from this machine
+docker rmi $(docker images -q)             # Remove all images from this machine
+docker login             # Log in this CLI session using your Docker credentials
+docker tag <image> username/repository:tag  # Tag <image> for upload to registry
+docker push username/repository:tag            # Upload tagged image to registry
+docker run username/repository:tag # Run image from a registry
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+git commands 
+
+setup of git 
+
+[manjunath@oc1631410328 ~]$ git config --global user.email "email@example.com"
+[manjunath@oc1631410328 ~]$ git config --global user.email "manjulinux15@gmail.com"
+[manjunath@oc1631410328 ~]$ git config --global user.name "manjulinux15"
+[manjunath@oc1631410328 ~]$ git config user.email
+manjulinux15@gmail.com
+[manjunath@oc1631410328 ~]$ git config user.name
+manjulinux15
+
+371  git --version  ##to print git version 
+  372  git config --global user.name "Manju polimera"    ##configuration of user details for git
+  373  git config --global user.email "manjulinux15@gmail.com"
+  374  cd   
+  375  clear
+  376  mkdir gitrepo   
+  377  cd gitrepo
+  378  touch README.md 
+  379  git init .   ##initilaising git local repository 
+  380  git status   ##show git status 
+  381  git add README.md   ##adding of file to local repository 
+  382  git status  ##shows status of git 
+  383  git commit -m "first commit"  ##commiting changes to staging work area
+  384  git status  
+  385  git log  ##shows the history of git commits 
+  386  vim README.md     
+  387  git status   
+  388  git diff README.md   ##shows the difference in file (before and after commits) 
+  389  git add README.md   
+  390  git commit -m "added first line of code"
+  391  git status  
+  392  git branch develop   ##creation of branch develop 
+  393  git branch    ##shows the current branch we are working on 
+  394  git checkout develop   ##to switch to another branch --switching to develop branch 
+  395  git branch    ##shows current branch which is marked with * symbol 
+  396  vim README.md 
+  397  git status
+  398  git commit -am "added line for develop branch"   ##it does adding and commiting of files with a single option ...
+  399  git status
+  400  git log   
+  401  git checkout master    ##switching to master branch 
+  402  less README.md   
+  403  git checkout develop 
+  404  git checkout -b feature   ###it will create feature branch if not created and will be exact replica of develop branch as it is taken reference 
+  405  git branch 
+  406  vim README.md 
+  407  git commit -am "added newfeature by reference"
+  408  git checkout 
+  409  git branch
+  410  git checkout develop
+  411  vim README.md 
+  412  git remote -v    ##shows remote urls info 
+  413  git branch  
+  414  git checkout master 
+  415  git remote add origin https://github.com/manjupolimera/testops.git  ##adding remote url to source for pushing local files to repository
+  416  git remote -v 
+  417  git push origin master    ##pushing files to master branch on git repository from origin source ....
+  418  git push origin develop   ##pushing files to develop branch on git repository from origin source ....
+
+
+git show <commit id >
+
+git log <filename>
+git diff <old commit id> <new commit id>
+
+
+
+ 
+to create branch and update the branch to git repository 
+
+
+git branch mergetest 
+git checkout mergetest 
+git push origin mergetest ###it will update mergetest branch to repository   and will update content as in master 
+
+
+
+testing merge option 
+
+git checkout master
+  429  vim README.md 
+
+
+  430  git commit -am "testing merge from master"
+  431  git push origin master
+  432  git checkout mergetest
+  433  vim README.md 
+
+
+  434  git merge master 
+  435  git commit -am "testing merge from mergetest branch"
+  436  git merge master
+
+
+
+[manjunath@oc1631410328 gitrepo]$ git merge master 
+Updating 07ab3fe..03985eb
+error: Your local changes to the following files would be overwritten by merge:
+	README.md
+Please, commit your changes or stash them before you can merge.
+Aborting
+[manjunath@oc1631410328 gitrepo]$ git commit -am "testing merge from mergetest branch"
+[mergetest eca9ce4] testing merge from mergetest branch
+ 1 file changed, 1 insertion(+)
+[manjunath@oc1631410328 gitrepo]$ git merge master
+Auto-merging README.md
+CONFLICT (content): Merge conflict in README.md
+Automatic merge failed; fix conflicts and then commit the result.
+
+
+
+
+
+
+
+
+  437  vim README.md    ( to merge the files from one branch to another we should modify the file on mergetest branch where it should be merged ....)
+
+this is first line of code
+<<<<<<< HEAD
+testing line for merge from mergetest branch     ###line that is extra added on merge test branch Readme file 
+=======
+
+testing line for merge option   ##line that is added on master branch but content is different 
+>>>>>>> master
+~                                                                                                                                                                               
+~                                                                                                                                                                               
+~                     
+
+///////////////
+
+
+AWS CLI commands 
+
+
+create volume 
+
+aws ec2 create-volume --size 80 --region us-east-1 --availability-zone us-east-1a --volume-type gp2
+
+
+
+o/p
+
+{
+    "AvailabilityZone": "us-east-1a",
+    "Attachments": [],
+    "Tags": [],
+    "VolumeType": "gp2",
+    "VolumeId": "vol-1234567890abcdef0",
+    "State": "creating",
+    "SnapshotId": null,
+    "CreateTime": "YYYY-MM-DDTHH:MM:SS.000Z",
+    "Size": 80
+}
+
+
+
+
+creating AMI image
+
+aws ec2 create-image --instance-id i-1234567890abcdef0 --name "My server" --description "An AMI for my server"
+
+To describe all instances with the instance type m1.small
+
+aws ec2 describe-instances --filters "Name=instance-type,Values=m1.small"
+
+To describe a snapshot
+
+aws ec2 describe-snapshots --snapshot-id snap-1234567890abcdef0
+
+To describe snapshots using filters
+
+aws ec2 describe-snapshots --owner-ids 012345678910 --filters Name=status,Values=pending
+
+To start an Amazon EC2 instance
+
+aws ec2 start-instances --instance-ids i-1234567890abcdef0
+
+To create a key pair
+
+aws ec2 create-key-pair --key-name MyKeyPair
+
+
+create vpc 
+
+aws ec2 create-vpc --cidr-block 10.0.0.0/16
+
+
+create subnet 
+
+aws ec2 create-subnet --vpc-id vpc-a01106c2 --cidr-block 10.0.1.0/24
+
+
+
+ref:  http://docs.aws.amazon.com/cli/latest/reference/ec2/index.html
+
+//////////////////////////////
+ 
+chef
+
+setup of chef :
+
+  353  wget https://packages.chef.io/files/stable/chefdk/1.3.43/el/7/chefdk-1.3.43-1.el7.x86_64.rpm   
+  354  rpm -i chefdk-1.3.43-1.el7.x86_64.rpm
+  355  usermod -g wheel ec2-user
+  356  chef-client --local-mode
+  357  ps -fe|grep chef
+  
+358  chef generate --help
+
+root@ip-172-31-18-244 mychefrepo]# pwd
+
+/root/mychefrepo   ##location where chef installed ....
+
+  359  chef generate repo  mychefrepo   ##to generate chef  repository 
+  360  cd mychefrepo/
+  361  ls
+  362  cd cookbooks/
+  363  chef generate cookbook mychefcookbook   ##to generate chef  cookbook 
+  364  ls
+  365  cd mychefcookbook/
+  366  ls
+  367  cd recipes/
+  368  ls
+  369  chef generate recipe myrecipe
+  370  cd ..
+  371  chef generate recipe myrecipe    ##to generate chef recipes ...   myrecipe is recipe name 
+  372  cd recipes/
+  373  less myrecipe.rb 
+  374  vim myrecipe.rb 
+
+example : 
+
+#
+# Cookbook:: mychefcookbook
+# Recipe:: myrecipe
+#
+# Copyright:: 2017, The Authors, All Rights Reserved.
+#
+#
+file '/etc/motd' do
+    content 'this is my 2nd server'
+end
+
+
+
+  375  cat /etc/motd
+  376  ruby -c myrecipe.rb    ##to check syntax for ruby file .... 
+  377  foodcritic myrecipe.rb    ##to check the program code 
+  378  chef-client -z myrecipe.rb   ##to execute the chef recipes ....
+  379  cat /etc/motd
+  380  ps -fe|grep httpd
+  381  ls
+  382  vim httpd.rb
+  383  rm httpd.rb
+  384  ls
+  385  cd ..
+  386  chef generate recipe httpd
+  387  cd recipes/
+  388  ls
+  389  vim httpd.rb 
+  390  ruby -c httpd.rb 
+  392  foodcritic httpd.rb 
+  393  chef-client -z httpd.rb 
+  394  vim httpd.rb 
+  395  foodcritic httpd.rb 
+  396  chef-client -z httpd.rb 
+  397  yum remove httpd
+  398  foodcritic httpd.rb 
+  399  chef-client -z httpd.rb 
+  416  rpm -Va --nofiles --nodigest
+  417  chef-client -z httpd.rb 
+  423  vim httpd.rb 
+  424  chef-client -z httpd.rb 
+  425  service nginx status
+  426  vim httpd.rb 
+  427  ruby -c httpd.rb 
+  428  foodcritic httpd.rb 
+  429  chef-client -z httpd.rb 
+  430  vim httpd.rb 
+  431  less /root/.chef/local-mode-cache/cache/chef-stacktrace.out
+  432  vim httpd.rb
+
+example: 
+
+[root@ip-172-31-18-244 recipes]# cat httpd.rb 
+#
+# Cookbook:: mychefcookbook
+# Recipe:: httpd
+#
+# Copyright:: 2017, The Authors, All Rights Reserved.
+#
+package 'nginx' do
+    package_name 'nginx'
+end
+
+
+service 'nginx' do 
+    action:start
+end
+
+
+ 
+  433  chef-client -z httpd.rb 
+  434  ps -fe|grep nginx
+  435  service nginx status 
+  436  vim httpd.rb 
+  437  ps -fe|grep nginx
+
+ ///////////////////////////////////////////////
+
+
+linux commands 
+
+
+ps -eo pcpu,pid,user,args|sort -r -k1|less    ---  ##to check processes using most cpu in s/m 
+nproc - #no of processors in s/m 
+vmstat -s 2 3
+sar - u 2 3 ##cpu statistics
+
+
